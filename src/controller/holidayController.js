@@ -85,7 +85,7 @@ exports.addHoliday = async (req, res) => {
     console.log('User role:', req.user?.role);
     
     // Check if user is admin
-    if (!req.user || req.user.role !== 'admin') {
+     if (!req.user || (req.user.role !== 'admin' && req.user.role !== 'superAdmin')) {
       return res.status(403).json({ 
         status: 'fail', 
         message: 'Only admin can create holidays' 
@@ -172,7 +172,7 @@ exports.updateHoliday = async (req, res) => {
     console.log('Update data:', req.body);
     
     // Check if user is admin
-    if (!req.user || req.user.role !== 'admin') {
+    if (!req.user || (req.user.role !== 'admin' && req.user.role !== 'superAdmin')) {
       return res.status(403).json({ 
         status: 'fail', 
         message: 'Only admin can update holidays' 
@@ -252,7 +252,7 @@ exports.deleteHoliday = async (req, res) => {
     console.log('Holiday ID:', req.params.id);
     
     // Check if user is admin
-    if (!req.user || req.user.role !== 'admin') {
+    if (!req.user || (req.user.role !== 'admin' && req.user.role !== 'superAdmin')) {
       return res.status(403).json({ 
         status: 'fail', 
         message: 'Only admin can delete holidays' 

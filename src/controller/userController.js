@@ -3141,11 +3141,11 @@ exports.getUserById = async (req, res) => {
     
     const { id } = req.params;
     
-    // Check if admin is requesting
-    if (req.user.role !== 'admin') {
+    // ✅ Check if user is admin OR superAdmin
+    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
       return res.status(403).json({
         success: false,
-        message: "Access denied. Admin only."
+        message: "Access denied. Admin or Super Admin only."
       });
     }
 

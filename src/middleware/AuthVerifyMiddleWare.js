@@ -152,7 +152,7 @@ exports.adminOnly = (req, res, next) => {
   }
   
   // Check if user has admin role
-  if (req.user.role !== "admin" && req.user.role !== "superadmin") {
+  if (req.user.role !== "admin" && req.user.role !== "superAdmin") {
     console.log('❌ Admin access denied for:', req.user.email);
     return res.status(403).json({ 
       success: false,
