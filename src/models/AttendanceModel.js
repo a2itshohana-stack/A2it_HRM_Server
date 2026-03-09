@@ -30,7 +30,7 @@ const attendanceSchema = new mongoose.Schema({
   },
   status: { 
     type: String, 
-    enum: ['Present', 'Absent', 'Leave', 'Govt Holiday', 'Weekly Off', 'Off Day', 'Late', 'Clocked In', 'Half Day', 'Early', 'Unpaid Leave', 'Half Paid Leave'], 
+    enum: ['Present', 'Absent', 'Leave', 'Govt Holiday', 'Weekly Off', 'Company Holiday', 'Late', 'Clocked In', 'Half Day', 'Early', 'Unpaid Leave', 'Half Paid Leave'], 
     default: 'Absent' 
   },
 
@@ -350,7 +350,7 @@ attendanceSchema.virtual('nightShiftDuration').get(function() {
 
 // Method to check if attendance is working day
 attendanceSchema.methods.isWorkingDay = function() {
-  const nonWorkingStatuses = ['Govt Holiday', 'Weekly Off', 'Off Day', 'Leave', 'Unpaid Leave', 'Half Paid Leave'];
+  const nonWorkingStatuses = ['Govt Holiday', 'Weekly Off', 'Company Holiday', 'Leave', 'Unpaid Leave', 'Half Paid Leave'];
   return !nonWorkingStatuses.includes(this.status);
 };
 

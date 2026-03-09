@@ -54,7 +54,7 @@ exports.autoMarkAttendance = async (req, res) => {
         });
         
         if (holiday) {
-          attendanceStatus = holiday.type === "GOVT" ? "Govt Holiday" : "Off Day";
+          attendanceStatus = holiday.type === "GOVT" ? "Govt Holiday" : "Company Holiday";
         } else {
           // 2️⃣ Temporary Weekly Override
           const override = await OfficeScheduleOverride.findOne({

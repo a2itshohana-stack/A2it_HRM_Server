@@ -293,7 +293,7 @@ const checkDayStatus = async (employeeId, date) => {
   if (holiday) {
     console.log(`🎉 Found holiday: ${holiday.name}`);
     return {
-      status: holiday.type === "GOVT" ? "Govt Holiday" : "Off Day",
+      status: holiday.type === "GOVT" ? "Govt Holiday" : "Company Holiday",
       isWorkingDay: false,
       reason: holiday.name || "Holiday",
       affectsAttendance: false,
@@ -744,8 +744,8 @@ async markWorkingDayAbsent() {
             status = 'Govt Holiday';
           } else if (dayStatus.status === 'Weekly Off') {
             status = 'Weekly Off';
-          } else if (dayStatus.status === 'Off Day') {
-            status = 'Off Day';
+          } else if (dayStatus.status === 'Company Holiday') {
+            status = 'Company Holiday';
           } else if (dayStatus.recordType === 'leave') {
             if (dayStatus.leaveDetails?.payStatus === 'Unpaid') {
               status = 'Unpaid Leave';
@@ -1319,7 +1319,7 @@ exports.getAttendanceSummary = async (req, res) => {
       else if (record.status === 'Leave') {
         paidLeaveDays++;
       }
-      else if (record.status === 'Govt Holiday' || record.status === 'Off Day') {
+      else if (record.status === 'Govt Holiday' || record.status === 'Company Holiday') {
         holidayDays++;
       }
       else if (record.status === 'Weekly Off') {
@@ -3724,7 +3724,7 @@ exports.getAdminEmployeeAttendance = async (req, res) => {
         absentDays++;
       } else if (record.status === 'Leave' || record.status === 'Unpaid Leave' || record.status === 'Half Paid Leave') {
         leaveDays++;
-      } else if (record.status === 'Govt Holiday' || record.status === 'Off Day' || record.status === 'Weekly Off') {
+      } else if (record.status === 'Govt Holiday' || record.status === 'Company Holiday' || record.status === 'Weekly Off') {
         holidayDays++;
       }
     });
@@ -3878,7 +3878,7 @@ exports.createBulkAttendanceV2 = async (req, res) => {
         
         if (isHoliday) {
           const holiday = holidays.find(h => h.date === dateString);
-          status = holiday?.type === "Govt Holiday" ? "Govt Holiday" : "Off Day";
+          status = holiday?.type === "Govt Holiday" ? "Govt Holiday" : "Company Holiday";
         } else if (isLeave) {
           status = "Leave";
         } else if (!markAllAsPresent) {
@@ -4080,7 +4080,7 @@ exports.getEmployeeCalendar = async (req, res) => {
           present: calendar.filter(day => day.status === 'Present' || day.status === 'Late' || day.status === 'Early').length,
           absent: calendar.filter(day => day.status === 'Absent').length,
           leave: calendar.filter(day => day.status.includes('Leave')).length,
-          holiday: calendar.filter(day => day.status === 'Govt Holiday' || day.status === 'Off Day').length,
+          holiday: calendar.filter(day => day.status === 'Govt Holiday' || day.status === 'Company Holiday').length,
           weeklyOff: calendar.filter(day => day.status === 'Weekly Off').length
         }
       }
@@ -4147,7 +4147,7 @@ exports.getMonthlyReport = async (req, res) => {
         totalAbsent++;
       } else if (record.status.includes('Leave')) {
         totalLeave++;
-      } else if (record.status === 'Govt Holiday' || record.status === 'Off Day') {
+      } else if (record.status === 'Govt Holiday' || record.status === 'Company Holiday') {
         totalHoliday++;
       } else if (record.status === 'Weekly Off') {
         totalWeeklyOff++;
@@ -4706,7 +4706,7 @@ exports.getAttendanceHistory = async (req, res) => {
         summary.absent++;
       } else if (record.status.includes('Leave')) {
         summary.leave++;
-      } else if (record.status === 'Govt Holiday' || record.status === 'Off Day') {
+      } else if (record.status === 'Govt Holiday' || record.status === 'Company Holiday') {
         summary.holiday++;
       } else if (record.status === 'Weekly Off') {
         summary.weeklyOff++;
